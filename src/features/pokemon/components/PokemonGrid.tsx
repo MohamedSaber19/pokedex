@@ -21,7 +21,7 @@ export function PokemonGrid({ items, showSkeletons = 0 }: Props) {
 
 function SkeletonCard() {
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-md bg-white p-4 shadow-sm">
       <div className="mb-3 aspect-square animate-pulse rounded-xl bg-gray-100" />
       <div className="mx-auto h-4 w-2/3 animate-pulse rounded bg-gray-100" />
       <div className="mx-auto mt-2 h-3 w-1/3 animate-pulse rounded bg-gray-100" />

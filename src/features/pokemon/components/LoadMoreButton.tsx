@@ -28,7 +28,7 @@ export function LoadMoreButton({ onClick, loading, hasMore }: Props) {
     <div className="flex justify-center py-6">
       <button
         onClick={onClick}
-        className="rounded-lg bg-gray-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-gray-800"
+        className="rounded-md bg-gray-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-gray-800"
       >
         Load More
       </button>

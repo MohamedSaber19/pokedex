@@ -9,7 +9,7 @@ export function PokemonCard({ item }: { item: ListItem }) {
   return (
     <Link
       to={`/pokemon/${id}`}
-      className="group rounded-2xl bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+      className="group rounded-md bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
     >
       <div className="mb-3 grid aspect-square place-items-center overflow-hidden rounded-xl bg-gray-100">
         <img

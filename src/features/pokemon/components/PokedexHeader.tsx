@@ -42,7 +42,7 @@ function ViewButton({
     <Link
       to={`/?view=${view}`}
       className={cn(
-        "rounded-lg px-4 py-2 text-sm font-medium shadow-sm transition-colors",
+        "rounded-md px-4 py-2 text-sm font-medium shadow-sm transition-colors",
         active
           ? "bg-gray-900 text-white"
           : "bg-white text-gray-900 hover:bg-gray-50",

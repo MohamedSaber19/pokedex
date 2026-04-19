@@ -1,11 +1,15 @@
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { EmptyState } from "../components/EmptyState";
 import { ErrorState } from "../components/ErrorState";
+import { LoadMoreButton } from "../components/LoadMoreButton";
 import { Pagination } from "../components/Pagination";
 import PokedexHeader from "../components/PokedexHeader";
 import { PokemonGrid } from "../components/PokemonGrid";
+import { useInfinitePokemon } from "../hooks/useInfinitePokemon";
 import { PAGE_SIZE, usePokemonList } from "../hooks/usePokemonList";
+import type { ListItem } from "../types";
 
 export function ListPage() {
   const [params, setParams] = useSearchParams();
@@ -21,10 +25,14 @@ export function ListPage() {
     >
       <PokedexHeader view={view} />
       <main className="mx-auto max-w-6xl">
-        <PaginatedView
-          page={page}
-          onChange={(p) => setParams({ view, page: String(p) })}
-        />
+        {view === "pages" ? (
+          <PaginatedView
+            page={page}
+            onChange={(p) => setParams({ view, page: String(p) })}
+          />
+        ) : (
+          <InfiniteView />
+        )}
       </main>
     </div>
   );
@@ -60,6 +68,46 @@ function PaginatedView({
           <Pagination page={page} totalPages={totalPages} onChange={onChange} />
           <p className="text-center text-sm text-gray-700">
             Page {page} of {totalPages} ({items.length} Pokemon shown)
+          </p>
+        </div>
+      )}
+    </>
+  );
+}
+
+function InfiniteView() {
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    refetch,
+  } = useInfinitePokemon();
+
+  const items = useMemo<ListItem[]>(() => {
+    return data ? data.pages.flatMap((page) => page.results) : [];
+  }, [data]);
+
+  if (isError) {
+    return (
+      <ErrorState message="Couldn't load Pokémon." onRetry={() => refetch()} />
+    );
+  }
+
+  return (
+    <>
+      <PokemonGrid items={items} showSkeletons={isLoading ? PAGE_SIZE : 0} />
+      {data && (
+        <div className="mt-2 space-y-1">
+          <LoadMoreButton
+            onClick={() => fetchNextPage()}
+            loading={isFetchingNextPage}
+            hasMore={Boolean(hasNextPage)}
+          />
+          <p className="text-center text-sm text-gray-500">
+            Showing {items.length} Pokemon
           </p>
         </div>
       )}
